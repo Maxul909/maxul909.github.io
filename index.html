@@ -678,12 +678,39 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-/* The header is transparent over the hero and solid once the page moves off it. */
+/* The header is transparent over the hero and solid once the page moves off it,
+   and the nav marks whichever section you are actually looking at. The static
+   aria-current in the markup is the no-JS fallback. */
 (function () {
   var bar = document.querySelector('.topbar');
-  if (!bar) return;
-  function sync() { bar.classList.toggle('is-stuck', window.scrollY > 24); }
+  var links = Array.prototype.slice.call(document.querySelectorAll('.mainnav a'));
+  var targets = links.map(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    // "Hem" points at <main>, which wraps every section — watch the hero instead.
+    return id === 'top' ? document.querySelector('.hero') : document.getElementById(id);
+  });
+
+  function sync() {
+    if (bar) bar.classList.toggle('is-stuck', window.scrollY > 24);
+    if (!links.length) return;
+
+    // Current = the last section whose top has passed under the header.
+    var line = 140, current = 0;
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i] && targets[i].getBoundingClientRect().top <= line) current = i;
+    }
+    // At the end of the page the final section wins even if it never reached the line.
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = targets.length - 1;
+    }
+    for (var j = 0; j < links.length; j++) {
+      if (j === current) links[j].setAttribute('aria-current', 'page');
+      else links[j].removeAttribute('aria-current');
+    }
+  }
+
   addEventListener('scroll', sync, { passive: true });
+  addEventListener('resize', sync, { passive: true });
   sync();
 })();
 </script>
