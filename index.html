@@ -7,7 +7,7 @@
 <meta name="description" content="Alpero Group AB är en konsultbyrå i Göteborg inom strategi, operationer och tillväxt. Vi hjälper företag att skapa struktur, effektivitet och långsiktig konkurrenskraft.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Tokens — Alpero Group AB design system.
    Source of truth: https://claude.ai/artifact/9TRaF6UJ281gRdhVm3w5Bt (project/tokens.json).
@@ -57,12 +57,13 @@ a { color: var(--blue-500); }
 .wrap { max-width: var(--measure); margin: 0 auto; padding: 0 var(--gutter); }
 
 /* ---- Type scale (tokens.json) ---- */
-/* Headings scale fluidly, as alpero-website-2 does, with its tight line-height
-   and negative tracking. Weights stay at the system's 500/600 rather than that
-   site's 700/800. */
-.t-display { font-size: clamp(32px, 6vw, 76px);   line-height: 1.02; font-weight: 500; letter-spacing: -0.045em; }
-.t-h1      { font-size: clamp(28px, 4.2vw, 52px); line-height: 1.07; font-weight: 500; letter-spacing: -0.035em; }
-.t-h2      { font-size: clamp(22px, 2.2vw, 30px); line-height: 1.22; font-weight: 500; letter-spacing: -0.02em; }
+/* Headings follow alpero-website-2: fluid size, tight line-height, negative
+   tracking, and weight 700 — that site sets no font-weight, so its headings take
+   the browser default bold, which is what gives them their weight on the page.
+   This overrides the brand book's 500-for-large-headings, by request. */
+.t-display { font-size: clamp(34px, 6.4vw, 84px); line-height: 0.98; font-weight: 700; letter-spacing: -0.05em; }
+.t-h1      { font-size: clamp(30px, 4.4vw, 56px); line-height: 1.02; font-weight: 700; letter-spacing: -0.045em; }
+.t-h2      { font-size: clamp(23px, 2.3vw, 32px); line-height: 1.18; font-weight: 600; letter-spacing: -0.025em; }
 .t-h3      { font-size: clamp(18px, 1.4vw, 20px); line-height: 1.4;  font-weight: 600; letter-spacing: -0.01em; }
 .t-body    { font-size: 16px; line-height: 26px; font-weight: 400; }
 .t-small   { font-size: 14px; line-height: 22px; font-weight: 400; }
@@ -165,13 +166,12 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
 }
 .hero .wrap { position: relative; z-index: 2; }
 .hero-inner { padding: 168px 0 var(--s8); max-width: 720px; }
-.hero .t-eyebrow { margin-bottom: var(--s4); }
 /* Width of the headline is controlled only by .hero-inner and the >=1100 override
    below it — do not set max-width here, it would come later and win. */
 .hero .t-display { margin-bottom: var(--s4); }
 @media (min-width: 1100px) {
-  .hero-inner { max-width: 920px; padding-top: 196px; }
-  .hero .t-display { max-width: 880px; }
+  .hero-inner { max-width: 960px; padding-top: 196px; }
+  .hero .t-display { max-width: 910px; }
 }
 .hero .t-body { max-width: 52ch; }
 .hero-actions { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; margin-top: var(--s6); }
@@ -489,7 +489,6 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
 
     <div class="wrap">
       <div class="hero-inner">
-        <p class="t-eyebrow">Premium consulting</p>
         <h1 class="t-display">Strategi, operationer och <span class="accent">hållbar tillväxt.</span></h1>
         <p class="t-body">Alpero Group AB hjälper företag att skapa struktur, effektivitet och långsiktig konkurrenskraft genom strategisk rådgivning, operativt stöd och projektledning.</p>
         <div class="hero-actions">

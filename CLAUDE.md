@@ -54,8 +54,14 @@ is intended — do not "fix" it back.
   real face is known. `alpero-website-2.aleksa-6fe.workers.dev` established the
   real face, so this is that swap.
 - `tokens.json` fixes headings at 48/36/24/18px; the site scales them fluidly
-  with `clamp()`, following the same reference. Colors, weights (400/500/600)
-  and everything else in `tokens.json` are unchanged and still authoritative.
+  with `clamp()`, following the same reference.
+- The brand book gives large headings weight 500. The site sets `display` and
+  `h1` to **700**, matching the reference, which was asked for by name — that
+  weight is most of what makes those headings read as strongly as they do.
+  Body copy is still 400 and small titles 600, as the system says.
+
+Colors, spacing and everything else in `tokens.json` are unchanged and remain
+authoritative.
 
 The design system has **not** been republished, so it and the site disagree on
 the typeface. Reconciling that means editing `project/tokens.json` in the
