@@ -187,9 +187,7 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
 
 /* ---- Services: hairline rules, not boxes ---- */
 .pillars { display: grid; grid-template-columns: repeat(4, 1fr); }
-/* Columns are flex so the "Läs mer" links sit on one line across all four,
-   whatever the description wraps to. */
-.pillars > li { padding: 0 var(--s5); border-left: 1px solid var(--ice-100); display: flex; flex-direction: column; }
+.pillars > li { padding: 0 var(--s5); border-left: 1px solid var(--ice-100); }
 .pillars > li:first-child { padding-left: 0; border-left: 0; }
 .pillars > li:last-child { padding-right: 0; }
 .badge {
@@ -199,7 +197,6 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
 }
 .badge svg { width: 26px; height: 26px; }
 .pillars .t-h3 { margin-bottom: var(--s2); }
-.pillars .link-arrow { margin-top: auto; padding-top: var(--s4); align-self: flex-start; }
 
 /* ---- About: copy and a pull-quote beside a dark "why" card. Ported from the
    earlier site (alpero-website-2), rebuilt on this page's tokens and scale. ---- */
@@ -513,25 +510,21 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
           <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-target"/></svg></div>
           <h2 class="t-h3">Strategi</h2>
           <p class="t-body">Vi hjälper dig att identifiera möjligheter, planera rätt och skapa värde över tid.</p>
-          <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
         <li>
           <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gear"/></svg></div>
           <h2 class="t-h3">Operationer</h2>
           <p class="t-body">Vi optimerar processer, flöden och resurser för ökad effektivitet.</p>
-          <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
         <li>
           <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chart"/></svg></div>
           <h2 class="t-h3">Utveckling</h2>
           <p class="t-body">Vi driver förändring och utveckling genom projekt och innovation.</p>
-          <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
         <li>
           <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-handshake"/></svg></div>
           <h2 class="t-h3">Samarbete</h2>
           <p class="t-body">Vi tror på nära partnerskap och långsiktiga relationer.</p>
-          <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
       </ul>
     </div>
