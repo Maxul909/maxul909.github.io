@@ -43,3 +43,20 @@ Pages publishes everything committed here.
 
 On the open axes — copy, layout, section structure, radii, meta formatting —
 general design guidance applies as normal.
+
+### Typography diverges, deliberately
+
+The site does **not** use the design system's typeface or heading sizes, and this
+is intended — do not "fix" it back.
+
+- `tokens.json` names Figtree; the site loads **Inter**. The brand book calls
+  Figtree "a closest match chosen from the images" and says to swap it once the
+  real face is known. `alpero-website-2.aleksa-6fe.workers.dev` established the
+  real face, so this is that swap.
+- `tokens.json` fixes headings at 48/36/24/18px; the site scales them fluidly
+  with `clamp()`, following the same reference. Colors, weights (400/500/600)
+  and everything else in `tokens.json` are unchanged and still authoritative.
+
+The design system has **not** been republished, so it and the site disagree on
+the typeface. Reconciling that means editing `project/tokens.json` in the
+artifact — ask first, since other people publish to it.
