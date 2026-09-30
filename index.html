@@ -25,13 +25,14 @@
   --font-sans: "Figtree", "Helvetica Neue", Arial, sans-serif;
 
   /* 8px grid */
-  --inset-sm: 24px;
-  --inset-md: 48px;
-  --inset-lg: 72px;
+  --s2: 8px;  --s3: 16px; --s4: 24px;
+  --s5: 32px; --s6: 48px; --s7: 72px; --s8: 96px;
+
+  --gutter: 24px;
+  --measure: 1200px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -41,335 +42,601 @@ body {
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 26px;
-  font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Square system: no radii anywhere. */
-img { border-radius: 0; }
-
-h1, h2, h3, p { margin: 0; }
-
+h1, h2, h3, p, figure, dl, dd { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+img { display: block; max-width: 100%; }
 a { color: var(--blue-500); }
 
-.wrap {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 var(--inset-sm);
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ---- Type scale (tokens.json) ---- */
+.t-display { font-size: 48px; line-height: 56px; font-weight: 500; letter-spacing: -0.015em; }
+.t-h1      { font-size: 36px; line-height: 44px; font-weight: 500; letter-spacing: -0.01em; }
+.t-h2      { font-size: 24px; line-height: 32px; font-weight: 500; }
+.t-h3      { font-size: 18px; line-height: 26px; font-weight: 600; }
+.t-body    { font-size: 16px; line-height: 26px; font-weight: 400; }
+.t-small   { font-size: 14px; line-height: 22px; font-weight: 400; }
+.t-eyebrow {
+  font-size: 12px; line-height: 16px; font-weight: 600;
+  letter-spacing: 0.24em; text-transform: uppercase;
 }
 
-/* Type scale */
-.display {
-  font-size: 48px;
-  line-height: 56px;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-}
-.h1 {
-  font-size: 36px;
-  line-height: 44px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-.h2 { font-size: 24px; line-height: 32px; font-weight: 500; }
-.h3 { font-size: 18px; line-height: 26px; font-weight: 600; }
-.body { font-size: 16px; line-height: 26px; font-weight: 400; }
-.small { font-size: 14px; line-height: 22px; font-weight: 400; }
-.eyebrow {
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-}
+/* Ground-dependent color. Scoped to a ground class so section rules never fight. */
+.ground-dark  { background: var(--navy-950); color: var(--white); }
+.ground-dark  .t-display, .ground-dark .t-h1, .ground-dark .t-h2, .ground-dark .t-h3 { color: var(--white); }
+.ground-dark  .t-eyebrow { color: var(--mist-200); }
+.ground-dark  .t-body, .ground-dark .t-small { color: var(--mist-200); }
 
-/* Grounds */
-.on-dark { background: var(--navy-950); color: var(--white); }
-.on-dark .h1, .on-dark .h2, .on-dark .h3, .on-dark .display { color: var(--white); }
-.on-dark .eyebrow, .on-dark .muted { color: var(--mist-200); }
-
-.on-light .display, .on-light .h1, .on-light .h2, .on-light .h3 { color: var(--navy-900); }
-.on-light .eyebrow { color: var(--blue-500); }
+.ground-light .t-display, .ground-light .t-h1, .ground-light .t-h2, .ground-light .t-h3 { color: var(--navy-900); }
+.ground-light .t-eyebrow { color: var(--blue-500); }
+.ground-light .t-body, .ground-light .t-small { color: var(--blue-700); }
 
 .accent { color: var(--sky-300); }
 
-/* Header */
-.site-header {
-  background: var(--navy-950);
-  padding: var(--inset-sm) 0;
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px var(--s4);
+  font-size: 14px; line-height: 22px; font-weight: 600;
+  text-decoration: none; border: 1px solid transparent; border-radius: 999px;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
-.site-header .wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--inset-sm);
-  flex-wrap: wrap;
-}
-.logo { display: block; width: 230px; height: auto; }
-.nav { display: flex; gap: var(--inset-sm); }
-.nav a {
-  color: var(--mist-200);
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 22px;
-}
-.nav a:hover, .nav a:focus-visible { color: var(--white); }
+.btn-primary { background: var(--sky-300); color: var(--navy-950); }
+.btn-primary:hover, .btn-primary:focus-visible { background: var(--white); }
+.btn-ghost { background: transparent; color: var(--white); border-color: rgba(184,199,217,.45); }
+.btn-ghost:hover, .btn-ghost:focus-visible { border-color: var(--sky-300); color: var(--sky-300); }
+.btn-dark { background: var(--navy-950); color: var(--white); }
+.btn-dark:hover, .btn-dark:focus-visible { background: var(--navy-900); }
+.btn-outline { background: transparent; color: var(--blue-500); border-color: var(--blue-500); }
+.btn-outline:hover, .btn-outline:focus-visible { background: var(--blue-500); color: var(--white); }
+.btn .arrow-i { width: 16px; height: 16px; flex: none; }
 
-/* Hero — the ascent motif sits behind the copy on the dark ground. */
-.hero {
-  position: relative;
-  background: var(--navy-950);
-  overflow: hidden;
-  padding: var(--inset-lg) 0 320px;
+/* Inline text link with trailing arrow — the brand's "Läs mer" pattern. */
+.link-arrow {
+  display: inline-flex; align-items: center; gap: var(--s2);
+  font-size: 14px; line-height: 22px; font-weight: 600;
+  color: var(--blue-500); text-decoration: none;
 }
-.hero .wrap { position: relative; z-index: 1; max-width: 1120px; }
-.hero .display { max-width: 16ch; }
-.hero .body { color: var(--mist-200); max-width: 52ch; margin-top: var(--inset-sm); }
-.hero .eyebrow { margin-bottom: var(--inset-sm); }
-.hero .rule {
-  display: block;
-  width: 40px;
-  height: 2px;
-  background: var(--sky-300);
-  margin-bottom: 16px;
-}
+.link-arrow .arrow-i { width: 16px; height: 16px; transition: transform .15s ease; }
+.link-arrow:hover .arrow-i, .link-arrow:focus-visible .arrow-i { transform: translateX(4px); }
+.ground-dark .link-arrow { color: var(--sky-300); }
 
-.ascent {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 320px;
-  pointer-events: none;
+/* ---- Header, sitting over the hero ---- */
+.topbar { position: absolute; inset: 0 0 auto; z-index: 3; padding: var(--s4) 0; }
+.topbar .wrap { display: flex; align-items: center; gap: var(--s6); }
+.brand { flex: none; }
+/* The published logo file carries its own navy clear space; this derived file is
+   trimmed to the ink, so the minimum clear space (~15% of width) is kept here. */
+.brand img { width: 208px; height: auto; }
+.brand { padding-right: 30px; }
+.mainnav { display: flex; gap: var(--s5); margin-left: auto; }
+.mainnav a {
+  color: var(--white); text-decoration: none; font-size: 14px; line-height: 22px;
+  padding-bottom: 4px; border-bottom: 2px solid transparent;
 }
-.ascent .ground { fill: var(--navy-950); }
-.ascent .far  { fill: var(--blue-700); fill-opacity: .7; }
-.ascent .mid  { fill: var(--blue-700); fill-opacity: .35; }
-.ascent .near { fill: var(--navy-900); }
+.mainnav a:hover, .mainnav a:focus-visible { border-bottom-color: var(--sky-300); }
+.mainnav a[aria-current="page"] { border-bottom-color: var(--sky-300); }
+.topbar-end { display: flex; align-items: center; gap: var(--s4); }
+.icon-link { color: var(--white); display: flex; }
+.icon-link:hover, .icon-link:focus-visible { color: var(--sky-300); }
+
+/* ---- Hero ---- */
+.hero { position: relative; background: var(--navy-950); overflow: hidden; }
+.hero-media { position: absolute; inset: 0; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; }
+/* Scrim: opaque navy on the left where the copy sits, clearing to the right so the
+   port and the truck stay readable. */
+.hero-scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, var(--navy-950) 0%, rgba(2,22,39,.92) 32%, rgba(2,22,39,.55) 62%, rgba(2,22,39,.30) 100%),
+    linear-gradient(180deg, rgba(2,22,39,.85) 0%, rgba(2,22,39,0) 38%);
+}
+.hero .wrap { position: relative; z-index: 2; }
+.hero-inner { padding: 168px 0 var(--s8); max-width: 620px; }
+.hero .t-eyebrow { margin-bottom: var(--s4); }
+.hero .t-display { margin-bottom: var(--s4); max-width: 560px; }
+.hero .t-body { max-width: 52ch; }
+.hero-actions { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; margin-top: var(--s6); }
+
+/* Right-hand rail: the three words of the tagline, set vertically. Sits high, over
+   the sky rather than the lit port, so it stays legible against the photograph. */
+.hero-rail {
+  position: absolute; right: max(var(--gutter), calc(50vw - var(--measure) / 2 + var(--gutter)));
+  top: 34%; z-index: 2; display: grid; gap: var(--s4);
+}
+.hero-rail li { padding-left: var(--s4); border-left: 1px solid rgba(255,255,255,.55); }
+.hero-rail span { color: var(--white); text-shadow: 0 1px 10px rgba(2,22,39,.95); }
+
+/* ---- Services: hairline rules, not boxes ---- */
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); }
+.pillars > li { padding: 0 var(--s5); border-left: 1px solid var(--ice-100); }
+.pillars > li:first-child { padding-left: 0; border-left: 0; }
+.pillars > li:last-child { padding-right: 0; }
+.badge {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--ice-100); color: var(--blue-500);
+  display: grid; place-items: center; margin-bottom: var(--s4);
+}
+.badge svg { width: 26px; height: 26px; }
+.pillars .t-h3 { margin-bottom: var(--s2); }
+.pillars .link-arrow { margin-top: var(--s4); }
+
+/* ---- About ---- */
+.about-grid {
+  display: grid; grid-template-columns: 340px 1fr 300px; gap: var(--s7); align-items: start;
+}
+.about-media img { width: 100%; height: 100%; object-fit: cover; }
+.about-copy .t-eyebrow { margin-bottom: var(--s3); }
+.about-copy .t-h1 { margin-bottom: var(--s4); }
+.about-copy p + p { margin-top: var(--s3); }
+
+.proof { display: grid; gap: var(--s5); }
+.proof li { display: grid; grid-template-columns: 44px 1fr; gap: var(--s3); align-items: start; }
+.proof .badge { width: 44px; height: 44px; margin: 0; }
+.proof .badge svg { width: 20px; height: 20px; }
+.proof .t-h3 { margin-bottom: 2px; }
+
+/* ---- Method: a real sequence, so it is numbered ---- */
+.method { position: relative; background: var(--navy-900); overflow: hidden; }
+.method .wrap { position: relative; z-index: 2; }
+.method-grid { display: grid; grid-template-columns: 380px 1fr; gap: var(--s7); align-items: center; }
+.method-intro .t-eyebrow { margin-bottom: var(--s3); }
+.method-intro .t-h1 { margin-bottom: var(--s4); }
+.method-intro .btn { margin-top: var(--s5); }
+
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s4); }
+.step { position: relative; }
+.step-no {
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 1px solid rgba(184,199,217,.45);
+  display: grid; place-items: center; margin-bottom: var(--s4);
+  font-size: 18px; line-height: 26px; font-weight: 600; color: var(--white);
+}
+/* Connector between consecutive steps: spans from the previous circle's right edge
+   to this one's left edge — one column width, plus the gap, less the circle. */
+.step + .step .step-no::before {
+  content: ""; position: absolute; top: 27px;
+  left: calc(-100% - var(--s4) + 56px);
+  width: calc(100% + var(--s4) - 56px);
+  height: 1px; background: rgba(184,199,217,.35);
+}
+.step + .step .step-no::after {
+  content: ""; position: absolute; left: calc(-1 * var(--s2) - 2px); top: 24px;
+  width: 6px; height: 6px; border-top: 1px solid rgba(184,199,217,.55);
+  border-right: 1px solid rgba(184,199,217,.55); transform: rotate(45deg);
+}
+.step .t-h3 { margin-bottom: 4px; }
+
+/* The ascent motif, kept as a quiet background element on the dark ground. */
+.ascent { position: absolute; right: 0; bottom: 0; width: 100%; height: 100%; opacity: .5; pointer-events: none; }
+.ascent .ground { fill: var(--navy-900); }
+.ascent .far  { fill: var(--blue-700); fill-opacity: .55; }
+.ascent .mid  { fill: var(--blue-700); fill-opacity: .28; }
+.ascent .near { fill: var(--navy-950); fill-opacity: .55; }
 .ascent .sun  { fill: var(--sky-300); }
-.ascent .g0 { stop-color: var(--sky-300); stop-opacity: .4; }
-.ascent .g1 { stop-color: var(--sky-300); stop-opacity: .1; }
+.ascent .g0 { stop-color: var(--sky-300); stop-opacity: .35; }
+.ascent .g1 { stop-color: var(--sky-300); stop-opacity: .08; }
 .ascent .g2 { stop-color: var(--sky-300); stop-opacity: 0; }
-.ascent .rim  { fill: none; stroke: var(--sky-300); stroke-width: 1; stroke-opacity: .35; stroke-linejoin: round; }
-.ascent .arc  { fill: none; stroke: var(--sky-300); stroke-width: 1; stroke-opacity: .55; stroke-linecap: round; }
-.ascent .halo { fill: none; stroke: var(--sky-300); stroke-width: 1; stroke-opacity: .5; }
+.ascent .rim  { fill: none; stroke: var(--sky-300); stroke-width: 1; stroke-opacity: .3; stroke-linejoin: round; }
 .ascent .node { fill: var(--sky-300); }
 
-/* Arrow links */
-.arrow {
-  display: inline-block;
-  margin-top: var(--inset-md);
-  color: var(--sky-300);
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 600;
-  border-bottom: 1px solid transparent;
-}
-.arrow:hover, .arrow:focus-visible { border-bottom-color: var(--sky-300); }
-.on-light .arrow { color: var(--blue-500); }
-.on-light .arrow:hover, .on-light .arrow:focus-visible { border-bottom-color: var(--blue-500); }
+/* ---- Experience ---- */
+.exp-grid { display: grid; grid-template-columns: 1fr 260px 380px; gap: var(--s6); align-items: start; }
+.exp-copy .t-h2 { margin-bottom: var(--s3); }
+.exp-copy .btn { margin-top: var(--s5); }
 
-/* Sections */
-section { padding: var(--inset-lg) 0; }
-.section-head { max-width: 60ch; margin-bottom: var(--inset-md); }
-.section-head .eyebrow { margin-bottom: 16px; }
-.section-head .body { margin-top: 16px; }
-
-/* Services */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--inset-md);
-}
-.card { border-top: 2px solid var(--blue-500); padding-top: var(--inset-sm); }
-.card .h3 { margin-bottom: 8px; }
-.card .small { color: var(--blue-700); }
-
-/* Panels */
-.panel {
-  background: var(--ice-100);
-  padding: var(--inset-lg) var(--inset-md);
-}
-.panel .body { color: var(--blue-700); }
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--inset-md);
-  align-items: start;
-}
-.contact-list { margin-top: var(--inset-sm); }
-.contact-list dt {
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--blue-500);
-  margin-bottom: 4px;
-}
-.contact-list dd {
-  margin: 0 0 var(--inset-sm);
-  font-size: 14px;
-  line-height: 22px;
-  color: var(--blue-700);
+.sectors { display: grid; gap: var(--s3); }
+.sectors li { display: flex; align-items: center; gap: var(--s3); }
+.sectors svg { width: 20px; height: 20px; color: var(--blue-500); flex: none; }
+.sectors span {
+  font-size: 12px; line-height: 16px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue-700);
 }
 
-/* The one primary button on the page. sky-300 fill, navy-950 text (10:1). */
-.btn {
-  display: inline-block;
-  background: var(--sky-300);
-  color: var(--navy-950);
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 600;
-  padding: 13px var(--inset-sm);
-  border: 0;
-}
-.btn:hover, .btn:focus-visible { background: var(--white); color: var(--navy-950); box-shadow: inset 0 0 0 2px var(--sky-300); }
+.cta-panel { background: var(--ice-100); padding: var(--s5); }
+.cta-panel .t-h2 { margin-bottom: var(--s3); }
+.cta-panel .btn { margin: var(--s4) 0; }
+.contacts { display: grid; gap: var(--s3); }
+.contacts li { display: flex; align-items: center; gap: var(--s3); }
+.contacts a { color: var(--blue-700); text-decoration: none; }
+.contacts a:hover, .contacts a:focus-visible { color: var(--blue-500); text-decoration: underline; }
+.contacts svg { width: 18px; height: 18px; color: var(--blue-500); flex: none; }
 
-/* Footer */
-.site-footer { background: var(--navy-950); padding: var(--inset-md) 0; }
-.site-footer .wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: var(--inset-md);
-  flex-wrap: wrap;
+/* ---- Footer ---- */
+.site-footer { background: var(--navy-950); padding: var(--s6) 0 var(--s5); }
+.footer-top {
+  display: flex; align-items: center; gap: var(--s6); flex-wrap: wrap;
+  padding-bottom: var(--s5); border-bottom: 1px solid rgba(184,199,217,.18);
 }
-.site-footer .logo { width: 184px; }
-.site-footer .small { color: var(--mist-200); }
-.site-footer a { color: var(--mist-200); text-decoration: none; }
-.site-footer a:hover, .site-footer a:focus-visible { color: var(--white); }
+.site-footer .brand img { width: 176px; }
+.footnav { display: flex; gap: var(--s4); }
+.footnav a { color: var(--mist-200); text-decoration: none; font-size: 14px; line-height: 22px; }
+.footnav a:hover, .footnav a:focus-visible { color: var(--white); }
+.footer-tag { display: flex; gap: var(--s4); margin-left: auto; }
+.footer-tag span { color: var(--mist-200); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+.footer-end { display: flex; gap: var(--s4); align-items: center; }
+.to-top {
+  width: 40px; height: 40px; border-radius: 50%; flex: none;
+  border: 1px solid rgba(184,199,217,.45); color: var(--white);
+  display: grid; place-items: center; text-decoration: none;
+}
+.to-top:hover, .to-top:focus-visible { border-color: var(--sky-300); color: var(--sky-300); }
+.footer-legal {
+  display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap;
+  padding-top: var(--s4);
+}
+.footer-legal p { color: var(--mist-200); font-size: 14px; line-height: 22px; }
+
+/* ---- Section rhythm. One rule, so nothing cancels out. ---- */
+.band { padding: var(--s8) 0; }
+.band-tight { padding: var(--s7) 0; }
 
 :focus-visible { outline: 2px solid var(--sky-300); outline-offset: 3px; }
-.on-light :focus-visible { outline-color: var(--blue-500); }
+.ground-light :focus-visible { outline-color: var(--blue-500); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1080px) {
+  .hero-rail { display: none; }
+  .about-grid { grid-template-columns: 280px 1fr; }
+  .about-grid .proof { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
+  .exp-grid { grid-template-columns: 1fr 1fr; }
+  .exp-grid .cta-panel { grid-column: 1 / -1; }
+  .method-grid { grid-template-columns: 1fr; gap: var(--s6); }
+}
 
 @media (max-width: 860px) {
-  .cards, .contact-grid { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: repeat(2, 1fr); row-gap: var(--s6); }
+  .pillars > li:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .pillars > li:nth-child(even) { padding-right: 0; }
+  .steps { grid-template-columns: repeat(2, 1fr); row-gap: var(--s5); }
+  .step + .step .step-no::before, .step + .step .step-no::after { display: none; }
+  /* The nav drops to its own row rather than disappearing; the header CTA goes,
+     since the hero already carries one two lines below it. */
+  .topbar .wrap { flex-wrap: wrap; gap: var(--s4); }
+  .mainnav { order: 3; width: 100%; margin-left: 0; gap: var(--s4); overflow-x: auto; }
+  .mainnav a { font-size: 13px; white-space: nowrap; }
+  .topbar-end { margin-left: auto; }
+  .topbar-end .btn { display: none; }
+  .hero-inner { padding-top: 164px; }
 }
 
 @media (max-width: 640px) {
-  :root { --inset-lg: 48px; --inset-md: 32px; }
-  .display { font-size: 32px; line-height: 40px; }
-  .h1 { font-size: 26px; line-height: 34px; }
-  .hero { padding-bottom: 200px; }
-  .ascent { height: 200px; }
-  .panel { padding: var(--inset-md) var(--inset-sm); }
-  .nav { gap: 16px; }
+  :root { --s8: 56px; --s7: 44px; --s6: 32px; }
+  .t-display { font-size: 32px; line-height: 40px; }
+  .t-h1 { font-size: 26px; line-height: 34px; }
+  .hero-inner { padding-top: 156px; max-width: none; }
+  .hero-scrim { background: linear-gradient(180deg, rgba(2,22,39,.92) 0%, rgba(2,22,39,.78) 55%, rgba(2,22,39,.9) 100%); }
+  .pillars { grid-template-columns: 1fr; }
+  .pillars > li { padding: 0; border-left: 0; }
+  .about-grid { grid-template-columns: 1fr; gap: var(--s6); }
+  .about-grid .proof { grid-template-columns: 1fr; }
+  .exp-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .brand img { width: 168px; }
+  .footer-tag { margin-left: 0; }
 }
 </style>
 </head>
 <body>
 
-<header class="site-header">
+<!-- Icon set: line icons, drawn once and referenced. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-arrow" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12h18M14 5l7 7-7 7"/>
+    </g>
+    <g id="i-target" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/>
+    </g>
+    <g id="i-gear" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="7.2"/><circle cx="12" cy="12" r="2.8"/>
+      <g stroke-width="2.2">
+        <path d="M12 3.1v1.8M12 19.1v1.8M20.9 12h-1.8M4.9 12H3.1"/>
+        <path d="m18.3 5.7-1.3 1.3M7 17l-1.3 1.3M18.3 18.3 17 17M7 7 5.7 5.7"/>
+      </g>
+    </g>
+    <g id="i-chart" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.5 20.5h17"/><path d="M6.5 20.5v-6M11 20.5v-10M15.5 20.5v-4M20 20.5v-13"/>
+    </g>
+    <g id="i-handshake" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m11 17 2 2a1 1 0 1 0 3-3"/>
+      <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.9-3.9a3 3 0 0 0-4.2 0l-.9.9a1 1 0 1 1-3-3l2.8-2.8a5.8 5.8 0 0 1 7.1-.9l.5.3a2 2 0 0 0 1.4.2L21 4"/>
+      <path d="m21 3 1 11h-2"/>
+      <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/>
+      <path d="M3 4h8"/>
+    </g>
+    <g id="i-badge" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-2.5L17 21l-1.5-7.5"/>
+    </g>
+    <g id="i-ship" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 16.5c1.8 0 1.8 1.6 3.6 1.6s1.8-1.6 3.6-1.6 1.8 1.6 3.6 1.6 1.8-1.6 3.6-1.6 1.8 1.6 3.6 1.6"/>
+      <path d="M5 13.5 12 11l7 2.5M12 11V6M9 6h6"/>
+    </g>
+    <g id="i-truck" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.5 16.5V7h11v9.5M13.5 10.5h4l3 3.5v2.5"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>
+    </g>
+    <g id="i-shield" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 4.5 6v6c0 4.5 3.2 7.5 7.5 9 4.3-1.5 7.5-4.5 7.5-9V6Z"/>
+    </g>
+    <g id="i-box" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 4 7v10l8 4 8-4V7Z"/><path d="M4 7l8 4 8-4M12 11v10"/>
+    </g>
+    <g id="i-clip" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.5 4.5h7v3h-7Z"/><path d="M15.5 6h3v14.5h-13V6h3"/><path d="M8.5 11h7M8.5 15h4.5"/>
+    </g>
+    <g id="i-phone" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 3.5h3.5l1.8 4.2-2.2 1.4a11 11 0 0 0 4.8 4.8l1.4-2.2 4.2 1.8V17a2.5 2.5 0 0 1-2.7 2.5A15.5 15.5 0 0 1 2.5 6.2 2.5 2.5 0 0 1 5 3.5Z"/>
+    </g>
+    <g id="i-mail" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 5.5h18v13H3Z"/><path d="m3 6.5 9 6 9-6"/>
+    </g>
+    <g id="i-pin" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/>
+    </g>
+    <g id="i-linkedin"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4v11H3v-11Zm6.5 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76v5.69h-4v-5.05c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.96 1.31-1.96 2.66v5.14h-4v-11Z"/></g>
+    <g id="i-up" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 20V5M5 12l7-7 7 7"/>
+    </g>
+  </defs>
+</svg>
+
+<header class="topbar">
   <div class="wrap">
-    <a href="#top"><img class="logo" src="assets/alpero-logo-navy.png" width="460" height="166" alt="Alpero Group AB"></a>
-    <nav class="nav" aria-label="Huvudmeny">
+    <a class="brand" href="#top" aria-label="Alpero Group AB, till toppen">
+      <img src="assets/alpero-logo.png" width="356" height="86" alt="Alpero Group AB">
+    </a>
+    <nav class="mainnav" aria-label="Huvudmeny">
+      <a href="#top" aria-current="page">Hem</a>
       <a href="#tjanster">Tjänster</a>
       <a href="#om">Om oss</a>
+      <a href="#erfarenhet">Erfarenhet</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
+    <div class="topbar-end">
+      <a class="icon-link" href="https://linkedin.com/in/aleksa-luketa" aria-label="Alpero Group AB på LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-linkedin"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="#kontakt">Kontakta oss
+        <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+    </div>
   </div>
 </header>
 
 <main id="top">
 
-  <section class="hero on-dark">
+  <section class="hero ground-dark">
+    <div class="hero-media">
+      <img src="assets/hero-operations.jpg" width="804" height="280"
+           alt="Lastbil på kustvägen mot en containerhamn i gryningen, med snöklädda berg i bakgrunden.">
+    </div>
+    <div class="hero-scrim"></div>
+
     <div class="wrap">
-      <span class="rule"></span>
-      <p class="eyebrow">Strategy&nbsp;&nbsp;/&nbsp;&nbsp;Operations&nbsp;&nbsp;/&nbsp;&nbsp;Growth</p>
-      <h1 class="display">Strategi, operationer och <span class="accent">hållbar tillväxt</span>.</h1>
-      <p class="body">Vi hjälper företag att skapa struktur, effektivitet och långsiktig konkurrenskraft.</p>
-      <a class="arrow" href="#tjanster">Läs mer →</a>
+      <div class="hero-inner">
+        <p class="t-eyebrow">Premium consulting</p>
+        <h1 class="t-display">Strategi, operationer och <span class="accent">hållbar tillväxt.</span></h1>
+        <p class="t-body">Alpero Group AB hjälper företag att skapa struktur, effektivitet och långsiktig konkurrenskraft genom strategisk rådgivning, operativt stöd och projektledning.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#kontakt">Kontakta oss
+            <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <a class="link-arrow" href="#tjanster">Läs mer om våra tjänster
+            <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- The ascent: three points — Strategy, Operations, Growth — climbing to the summit.
-         Artwork from the design system, project/components/Cover/preview.html. -->
-    <svg class="ascent" viewBox="0 0 960 320" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">
-      <defs><radialGradient id="glow"><stop offset="0" class="g0"/><stop offset=".35" class="g1"/><stop offset="1" class="g2"/></radialGradient></defs>
-      <circle fill="url(#glow)" cx="850" cy="140" r="90"/>
-      <circle class="sun" cx="850" cy="140" r="20"/>
-      <polygon class="ground" points="480.0,320.0 480.0,320.0 493.2,312.6 507.5,304.4 524.4,294.4 540.0,288.0 547.8,281.7 556.9,276.9 570.3,269.4 580.0,262.0 593.9,250.7 606.6,241.8 617.8,233.2 628.0,222.0 643.9,209.7 658.2,201.0 674.3,188.9 688.0,176.0 694.3,179.2 699.2,182.4 706.1,187.8 712.0,192.0 718.7,182.8 725.9,172.5 731.8,162.1 738.0,150.0 746.4,140.4 757.1,132.1 765.6,124.9 772.0,118.0 778.3,112.5 784.5,107.3 790.0,102.8 796.0,98.0 802.5,106.9 808.3,114.4 814.8,122.0 820.0,128.0 829.4,133.8 836.9,137.5 845.4,143.9 852.0,150.0 861.5,146.5 869.1,142.7 876.0,139.4 884.0,138.0 892.7,149.5 904.0,159.5 911.8,166.9 920.0,176.0 930.5,180.5 938.7,187.5 949.7,190.5 960.0,196.0 960.0,320.0"/>
-      <polygon class="far" points="480.0,320.0 480.0,320.0 493.2,312.6 507.5,304.4 524.4,294.4 540.0,288.0 547.8,281.7 556.9,276.9 570.3,269.4 580.0,262.0 593.9,250.7 606.6,241.8 617.8,233.2 628.0,222.0 643.9,209.7 658.2,201.0 674.3,188.9 688.0,176.0 694.3,179.2 699.2,182.4 706.1,187.8 712.0,192.0 718.7,182.8 725.9,172.5 731.8,162.1 738.0,150.0 746.4,140.4 757.1,132.1 765.6,124.9 772.0,118.0 778.3,112.5 784.5,107.3 790.0,102.8 796.0,98.0 802.5,106.9 808.3,114.4 814.8,122.0 820.0,128.0 829.4,133.8 836.9,137.5 845.4,143.9 852.0,150.0 861.5,146.5 869.1,142.7 876.0,139.4 884.0,138.0 892.7,149.5 904.0,159.5 911.8,166.9 920.0,176.0 930.5,180.5 938.7,187.5 949.7,190.5 960.0,196.0 960.0,320.0"/>
-      <polyline class="rim" points="480.0,320.0 493.2,312.6 507.5,304.4 524.4,294.4 540.0,288.0 547.8,281.7 556.9,276.9 570.3,269.4 580.0,262.0 593.9,250.7 606.6,241.8 617.8,233.2 628.0,222.0 643.9,209.7 658.2,201.0 674.3,188.9 688.0,176.0 694.3,179.2 699.2,182.4 706.1,187.8 712.0,192.0 718.7,182.8 725.9,172.5 731.8,162.1 738.0,150.0 746.4,140.4 757.1,132.1 765.6,124.9 772.0,118.0 778.3,112.5 784.5,107.3 790.0,102.8 796.0,98.0 802.5,106.9 808.3,114.4 814.8,122.0 820.0,128.0 829.4,133.8 836.9,137.5 845.4,143.9 852.0,150.0 861.5,146.5 869.1,142.7 876.0,139.4 884.0,138.0 892.7,149.5 904.0,159.5 911.8,166.9 920.0,176.0 930.5,180.5 938.7,187.5 949.7,190.5 960.0,196.0"/>
-      <polygon class="ground" points="500.0,320.0 500.0,320.0 517.8,307.6 534.0,299.5 553.2,292.1 572.0,286.0 582.2,276.8 596.0,268.1 609.8,257.4 628.0,250.0 635.7,246.6 645.6,244.6 655.2,241.5 664.0,236.0 675.8,239.4 684.5,245.4 695.4,250.1 704.0,256.0 715.6,245.2 728.8,232.0 742.8,223.3 760.0,214.0 770.6,216.9 780.9,222.3 789.1,226.3 800.0,232.0 811.4,225.5 824.3,218.5 835.0,211.6 846.0,206.0 859.6,215.0 875.5,223.5 887.9,232.2 900.0,238.0 918.6,232.0 932.2,229.2 945.7,227.7 960.0,224.0 960.0,320.0"/>
-      <polygon class="mid" points="500.0,320.0 500.0,320.0 517.8,307.6 534.0,299.5 553.2,292.1 572.0,286.0 582.2,276.8 596.0,268.1 609.8,257.4 628.0,250.0 635.7,246.6 645.6,244.6 655.2,241.5 664.0,236.0 675.8,239.4 684.5,245.4 695.4,250.1 704.0,256.0 715.6,245.2 728.8,232.0 742.8,223.3 760.0,214.0 770.6,216.9 780.9,222.3 789.1,226.3 800.0,232.0 811.4,225.5 824.3,218.5 835.0,211.6 846.0,206.0 859.6,215.0 875.5,223.5 887.9,232.2 900.0,238.0 918.6,232.0 932.2,229.2 945.7,227.7 960.0,224.0 960.0,320.0"/>
-      <polygon class="near" points="540.0,320.0 540.0,320.0 560.1,315.1 575.5,310.6 593.8,305.7 612.0,300.0 625.1,296.2 637.2,290.1 650.6,284.3 668.0,280.0 681.4,282.4 693.2,288.5 712.1,292.1 726.0,292.0 740.5,282.9 758.5,278.0 773.4,268.1 788.0,262.0 799.1,267.8 814.1,273.9 829.8,283.3 846.0,290.0 861.1,286.8 876.2,282.2 890.9,276.2 906.0,272.0 923.4,278.2 937.3,282.7 948.0,283.4 960.0,286.0 960.0,320.0"/>
-      <path class="arc" d="M580 262 Q 634 150 688 176"/>
-      <path class="arc" d="M688 176 Q 742 72 796 98"/>
-      <circle class="halo" cx="796" cy="98" r="8"/>
+    <ul class="hero-rail">
+      <li><span class="t-eyebrow">Strategy</span></li>
+      <li><span class="t-eyebrow">Operations</span></li>
+      <li><span class="t-eyebrow">Growth</span></li>
+    </ul>
+  </section>
+
+  <section id="tjanster" class="band ground-light">
+    <div class="wrap">
+      <ul class="pillars">
+        <li>
+          <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-target"/></svg></div>
+          <h2 class="t-h3">Strategi</h2>
+          <p class="t-small">Vi hjälper dig att identifiera möjligheter, planera rätt och skapa värde över tid.</p>
+          <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </li>
+        <li>
+          <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gear"/></svg></div>
+          <h2 class="t-h3">Operationer</h2>
+          <p class="t-small">Vi optimerar processer, flöden och resurser för ökad effektivitet.</p>
+          <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </li>
+        <li>
+          <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chart"/></svg></div>
+          <h2 class="t-h3">Utveckling</h2>
+          <p class="t-small">Vi driver förändring och utveckling genom projekt och innovation.</p>
+          <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </li>
+        <li>
+          <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-handshake"/></svg></div>
+          <h2 class="t-h3">Samarbete</h2>
+          <p class="t-small">Vi tror på nära partnerskap och långsiktiga relationer.</p>
+          <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="om" class="band-tight ground-light">
+    <div class="wrap">
+      <div class="about-grid">
+        <figure class="about-media">
+          <img src="assets/about-valley.jpg" width="370" height="430"
+               alt="Person som blickar ut över en hamn och bergslandskap i skymningen.">
+        </figure>
+
+        <div class="about-copy">
+          <p class="t-eyebrow">Om Alpero Group AB</p>
+          <h2 class="t-h1">Din partner för hållbar tillväxt</h2>
+          <p class="t-body">Alpero Group AB är ett entreprenörsdrivet bolag som hjälper företag och organisationer att utvecklas genom strategisk rådgivning, operativt stöd och effektiva lösningar.</p>
+          <p class="t-body">Vi kombinerar praktisk erfarenhet med ett modernt förhållningssätt och arbetar nära våra kunder för att skapa långsiktiga resultat.</p>
+        </div>
+
+        <ul class="proof">
+          <li>
+            <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-badge"/></svg></div>
+            <div>
+              <h3 class="t-h3">Erfarenhet</h3>
+              <p class="t-small">Bred erfarenhet från industri, logistik, försvar och projektledning.</p>
+            </div>
+          </li>
+          <li>
+            <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gear"/></svg></div>
+            <div>
+              <h3 class="t-h3">Flexibilitet</h3>
+              <p class="t-small">Anpassade lösningar efter dina behov och mål.</p>
+            </div>
+          </li>
+          <li>
+            <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chart"/></svg></div>
+            <div>
+              <h3 class="t-h3">Resultat</h3>
+              <p class="t-small">Fokus på mätbar effekt och långsiktig konkurrenskraft.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="method band ground-dark">
+    <svg class="ascent" viewBox="0 0 960 320" preserveAspectRatio="xMaxYMax slice" aria-hidden="true" focusable="false">
+      <defs><radialGradient id="mglow"><stop offset="0" class="g0"/><stop offset=".35" class="g1"/><stop offset="1" class="g2"/></radialGradient></defs>
+      <circle fill="url(#mglow)" cx="850" cy="140" r="90"/>
+      <circle class="sun" cx="850" cy="140" r="14"/>
+      <polygon class="far" points="480.0,320.0 493.2,312.6 507.5,304.4 524.4,294.4 540.0,288.0 556.9,276.9 580.0,262.0 606.6,241.8 628.0,222.0 658.2,201.0 688.0,176.0 699.2,182.4 712.0,192.0 725.9,172.5 738.0,150.0 757.1,132.1 772.0,118.0 784.5,107.3 796.0,98.0 808.3,114.4 820.0,128.0 836.9,137.5 852.0,150.0 869.1,142.7 884.0,138.0 904.0,159.5 920.0,176.0 938.7,187.5 960.0,196.0 960.0,320.0"/>
+      <polyline class="rim" points="480.0,320.0 493.2,312.6 507.5,304.4 524.4,294.4 540.0,288.0 556.9,276.9 580.0,262.0 606.6,241.8 628.0,222.0 658.2,201.0 688.0,176.0 699.2,182.4 712.0,192.0 725.9,172.5 738.0,150.0 757.1,132.1 772.0,118.0 784.5,107.3 796.0,98.0 808.3,114.4 820.0,128.0 836.9,137.5 852.0,150.0 869.1,142.7 884.0,138.0 904.0,159.5 920.0,176.0 938.7,187.5 960.0,196.0"/>
+      <polygon class="mid" points="500.0,320.0 517.8,307.6 534.0,299.5 553.2,292.1 572.0,286.0 596.0,268.1 628.0,250.0 645.6,244.6 664.0,236.0 684.5,245.4 704.0,256.0 728.8,232.0 760.0,214.0 780.9,222.3 800.0,232.0 824.3,218.5 846.0,206.0 875.5,223.5 900.0,238.0 932.2,229.2 960.0,224.0 960.0,320.0"/>
+      <polygon class="near" points="540.0,320.0 560.1,315.1 575.5,310.6 593.8,305.7 612.0,300.0 637.2,290.1 668.0,280.0 693.2,288.5 726.0,292.0 758.5,278.0 788.0,262.0 814.1,273.9 846.0,290.0 876.2,282.2 906.0,272.0 937.3,282.7 960.0,286.0 960.0,320.0"/>
       <circle class="node" cx="580" cy="262" r="2.5"/>
       <circle class="node" cx="688" cy="176" r="3"/>
       <circle class="node" cx="796" cy="98" r="3.5"/>
     </svg>
-  </section>
 
-  <section id="tjanster" class="on-light">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Våra tjänster</p>
-        <h2 class="h1">Från analys till resultat</h2>
-        <p class="body">Anpassade lösningar efter dina behov och mål — från strategisk riktning till genomförande i vardagen.</p>
-      </div>
-      <div class="cards">
-        <article class="card">
-          <h3 class="h3">Strategi</h3>
-          <p class="small">Vi klargör riktningen: marknadsposition, prioriteringar och de beslut som avgör var företaget står om tre år.</p>
-        </article>
-        <article class="card">
-          <h3 class="h3">Operationer</h3>
-          <p class="small">Vi bygger strukturen som bär strategin — processer, styrning och uppföljning som fungerar i praktiken.</p>
-        </article>
-        <article class="card">
-          <h3 class="h3">Tillväxt</h3>
-          <p class="small">Vi skapar förutsättningar för lönsam expansion, med uthållig konkurrenskraft snarare än kortsiktiga toppar.</p>
-        </article>
+      <div class="method-grid">
+        <div class="method-intro">
+          <p class="t-eyebrow">Vår arbetsmetod</p>
+          <h2 class="t-h1">Från analys till resultat</h2>
+          <p class="t-body">Vi arbetar strukturerat och nära våra kunder för att skapa effektiva lösningar som gör skillnad.</p>
+          <a class="btn btn-ghost" href="#kontakt">Läs mer om vår process
+            <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <div class="step-no">01</div>
+            <h3 class="t-h3">Analys</h3>
+            <p class="t-small">Förstå dina behov, utmaningar och mål.</p>
+          </li>
+          <li class="step">
+            <div class="step-no">02</div>
+            <h3 class="t-h3">Strategi</h3>
+            <p class="t-small">Ta fram rätt plan för att skapa värde.</p>
+          </li>
+          <li class="step">
+            <div class="step-no">03</div>
+            <h3 class="t-h3">Genomförande</h3>
+            <p class="t-small">Sätt planen i handling tillsammans med dig.</p>
+          </li>
+          <li class="step">
+            <div class="step-no">04</div>
+            <h3 class="t-h3">Uppföljning</h3>
+            <p class="t-small">Säkerställ resultat och långsiktig effekt.</p>
+          </li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <section id="om" class="on-light">
+  <section id="erfarenhet" class="band-tight ground-light">
     <div class="wrap">
-      <div class="panel">
-        <div class="section-head" style="margin-bottom:0">
-          <p class="eyebrow">Om Alpero Group AB</p>
-          <h2 class="h1">Din partner för hållbar tillväxt</h2>
-          <p class="body">Alpero Group AB är en konsultbyrå i Göteborg inom strategi, operationer och tillväxt. Vi arbetar nära ledningen, från analys till genomförande, och stannar kvar tills förändringen sitter.</p>
+      <div class="exp-grid">
+        <div class="exp-copy">
+          <h2 class="t-h2">Erfarenhet &amp; kompetens</h2>
+          <p class="t-body">Vi har erfarenhet från flera delar av värdekedjan – från produktion och verkstadsnära verksamhet till internationella materialflöden, systemstöd och kundleverans.</p>
+          <a class="btn btn-outline" href="#kontakt">Se hela vår erfarenhet
+            <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="kontakt" class="on-light">
-    <div class="wrap">
-      <div class="contact-grid">
-        <div class="section-head" style="margin-bottom:0">
-          <p class="eyebrow">Kontakt</p>
-          <h2 class="h1">Låt oss ta nästa steg</h2>
-          <p class="body">Berätta var ni står i dag, så återkommer vi med hur vi kan hjälpa till.</p>
-          <p style="margin-top:var(--inset-sm)"><a class="btn" href="mailto:info@example.com">Kontakta oss</a></p>
+        <ul class="sectors">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-truck"/></svg><span>Automotive</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-truck"/></svg><span>Commercial vehicles</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg><span>Defence</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ship"/></svg><span>Industrial logistics</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clip"/></svg><span>Project management</span></li>
+        </ul>
+
+        <div class="cta-panel" id="kontakt">
+          <h2 class="t-h2">Låt oss skapa värde tillsammans</h2>
+          <p class="t-small">Oavsett om du behöver strategisk rådgivning, operativt stöd eller hjälp med ett specifikt projekt – vi finns här för att hjälpa dig.</p>
+          <a class="btn btn-dark" href="mailto:aleksa@alpero.se">Kontakta oss
+            <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <ul class="contacts">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg>
+                <a class="t-small" href="tel:+46709892199">+46 70 989 21 99</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg>
+                <a class="t-small" href="mailto:aleksa@alpero.se">aleksa@alpero.se</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-linkedin"/></svg>
+                <a class="t-small" href="https://linkedin.com/in/aleksa-luketa">linkedin.com/in/aleksa-luketa</a></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg>
+                <span class="t-small">Göteborg, Sverige</span></li>
+          </ul>
         </div>
-        <!-- TODO: fyll i riktiga kontaktuppgifter innan publicering. -->
-        <dl class="contact-list">
-          <dt>E-post</dt>
-          <dd><a href="mailto:info@example.com">info@example.com</a></dd>
-          <dt>Ort</dt>
-          <dd>Göteborg, Sverige</dd>
-        </dl>
       </div>
     </div>
   </section>
 
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer ground-dark">
   <div class="wrap">
-    <img class="logo" src="assets/alpero-logo-navy.png" width="460" height="166" alt="Alpero Group AB">
-    <p class="small">© <span id="year">2026</span> Alpero Group AB, Göteborg</p>
+    <div class="footer-top">
+      <a class="brand" href="#top" aria-label="Alpero Group AB, till toppen">
+        <img src="assets/alpero-logo.png" width="356" height="86" alt="Alpero Group AB">
+      </a>
+      <nav class="footnav" aria-label="Sidfotsmeny">
+        <a href="#top">Hem</a>
+        <a href="#tjanster">Tjänster</a>
+        <a href="#om">Om oss</a>
+        <a href="#erfarenhet">Erfarenhet</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+      <p class="footer-tag"><span>Strategy</span><span>Operations</span><span>Growth</span></p>
+      <div class="footer-end">
+        <a class="icon-link" href="https://linkedin.com/in/aleksa-luketa" aria-label="Alpero Group AB på LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-linkedin"/></svg>
+        </a>
+        <a class="to-top" href="#top" aria-label="Till toppen">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-up"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>© <span id="year">2026</span> Alpero Group AB. Alla rättigheter reserverade.</p>
+      <p>Org.nr: 559474-1234 &nbsp;|&nbsp; Göteborg, Sverige</p>
+    </div>
   </div>
 </footer>
 
