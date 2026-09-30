@@ -142,7 +142,7 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
 .brand { padding-right: 30px; }
 .mainnav { display: flex; gap: var(--s5); margin-left: auto; }
 .mainnav a {
-  color: var(--white); text-decoration: none; font-size: 14px; line-height: 22px;
+  color: var(--white); text-decoration: none; font-size: 16px; line-height: 24px;
   padding-bottom: 4px; border-bottom: 2px solid transparent;
 }
 .mainnav a:hover, .mainnav a:focus-visible { border-bottom-color: var(--sky-300); }
@@ -307,7 +307,7 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
 }
 .site-footer .brand img { width: 176px; }
 .footnav { display: flex; gap: var(--s4); }
-.footnav a { color: var(--mist-200); text-decoration: none; font-size: 14px; line-height: 22px; }
+.footnav a { color: var(--mist-200); text-decoration: none; font-size: 15px; line-height: 24px; }
 .footnav a:hover, .footnav a:focus-visible { color: var(--white); }
 .footer-tag { display: flex; gap: var(--s4); margin-left: auto; }
 .footer-tag span { color: var(--mist-200); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
@@ -345,15 +345,11 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
   .method-grid { grid-template-columns: 1fr; gap: var(--s6); }
 }
 
-@media (max-width: 860px) {
-  .pillars { grid-template-columns: repeat(2, 1fr); row-gap: var(--s6); }
-  .pillars > li:nth-child(odd) { padding-left: 0; border-left: 0; }
-  .pillars > li:nth-child(even) { padding-right: 0; }
-  .steps { grid-template-columns: repeat(2, 1fr); row-gap: var(--s5); }
-  .step + .step .step-no::before, .step + .step .step-no::after { display: none; }
-  .about-grid { grid-template-columns: 1fr; }
-  /* The nav drops to its own row rather than disappearing; the header CTA goes,
-     since the hero already carries one two lines below it. */
+/* Header has its own breakpoint: at 16px the five links plus the logo, LinkedIn
+   and the CTA stop fitting one row well before the content grid needs to change.
+   The nav drops to its own row rather than disappearing; the header CTA goes,
+   since the hero already carries one two lines below it. */
+@media (max-width: 1000px) {
   .topbar .wrap { flex-wrap: wrap; gap: var(--s4); }
   /* Scrolls if it must, but without painting a scrollbar under the header. */
   .mainnav {
@@ -361,7 +357,7 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
     overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
   }
   .mainnav::-webkit-scrollbar { display: none; }
-  .mainnav a { font-size: 13px; white-space: nowrap; }
+  .mainnav a { font-size: 15px; white-space: nowrap; }
   .topbar-end { margin-left: auto; }
   .topbar-end .btn { display: none; }
   .hero-inner { padding-top: 164px; }
@@ -369,6 +365,15 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
   .topbar.is-stuck { padding: 10px 0; }
   .topbar.is-stuck .brand img { width: 168px; }
   main[id], section[id], .cta-panel[id] { scroll-margin-top: 112px; }
+}
+
+@media (max-width: 860px) {
+  .pillars { grid-template-columns: repeat(2, 1fr); row-gap: var(--s6); }
+  .pillars > li:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .pillars > li:nth-child(even) { padding-right: 0; }
+  .steps { grid-template-columns: repeat(2, 1fr); row-gap: var(--s5); }
+  .step + .step .step-no::before, .step + .step .step-no::after { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -382,6 +387,8 @@ main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
   .steps { grid-template-columns: 1fr; }
   .brand img { width: 168px; }
   .footer-tag { margin-left: 0; }
+  /* All five links fit a 390px row at 14px; at 15px Kontakt falls off the edge. */
+  .mainnav a { font-size: 14px; }
 }
 </style>
 </head>
