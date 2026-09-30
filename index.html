@@ -64,6 +64,20 @@ a { color: var(--blue-500); }
   letter-spacing: 0.24em; text-transform: uppercase;
 }
 
+/* tokens.json fixes one set of sizes and says nothing about viewport — it has no
+   breakpoints. The values above are that set, held as the base; from 1100px up the
+   scale steps to suit the wider measure. Ratios and weights are unchanged. */
+@media (min-width: 1100px) {
+  body       { font-size: 17px; line-height: 28px; }
+  .t-display { font-size: 60px; line-height: 68px; }
+  .t-h1      { font-size: 42px; line-height: 50px; }
+  .t-h2      { font-size: 28px; line-height: 36px; }
+  .t-h3      { font-size: 20px; line-height: 28px; }
+  .t-body    { font-size: 17px; line-height: 28px; }
+  .t-small   { font-size: 15px; line-height: 24px; }
+  .t-eyebrow { font-size: 13px; line-height: 18px; }
+}
+
 /* Ground-dependent color. Scoped to a ground class so section rules never fight. */
 .ground-dark  { background: var(--navy-950); color: var(--white); }
 .ground-dark  .t-display, .ground-dark .t-h1, .ground-dark .t-h2, .ground-dark .t-h3 { color: var(--white); }
@@ -104,8 +118,19 @@ a { color: var(--blue-500); }
 .link-arrow:hover .arrow-i, .link-arrow:focus-visible .arrow-i { transform: translateX(4px); }
 .ground-dark .link-arrow { color: var(--sky-300); }
 
-/* ---- Header, sitting over the hero ---- */
-.topbar { position: absolute; inset: 0 0 auto; z-index: 3; padding: var(--s4) 0; }
+/* ---- Header: fixed, transparent over the hero photograph, and taking a solid
+   navy ground once the page scrolls off it so the white type stays readable. ---- */
+.topbar {
+  position: fixed; inset: 0 0 auto; z-index: 50; padding: var(--s4) 0;
+  transition: background-color .2s ease, padding .2s ease, box-shadow .2s ease;
+}
+.topbar.is-stuck {
+  background: var(--navy-950);
+  padding: 12px 0;
+  box-shadow: 0 1px 0 rgba(184,199,217,.18);
+}
+/* Anchor targets clear the fixed header instead of landing underneath it. */
+main[id], section[id], .cta-panel[id] { scroll-margin-top: 96px; }
 .topbar .wrap { display: flex; align-items: center; gap: var(--s6); }
 .brand { flex: none; }
 /* The published logo file carries its own navy clear space; this derived file is
@@ -137,6 +162,10 @@ a { color: var(--blue-500); }
 }
 .hero .wrap { position: relative; z-index: 2; }
 .hero-inner { padding: 168px 0 var(--s8); max-width: 620px; }
+@media (min-width: 1100px) {
+  .hero-inner { max-width: 760px; padding-top: 188px; }
+  .hero .t-display { max-width: 700px; }
+}
 .hero .t-eyebrow { margin-bottom: var(--s4); }
 .hero .t-display { margin-bottom: var(--s4); max-width: 560px; }
 .hero .t-body { max-width: 52ch; }
@@ -153,7 +182,9 @@ a { color: var(--blue-500); }
 
 /* ---- Services: hairline rules, not boxes ---- */
 .pillars { display: grid; grid-template-columns: repeat(4, 1fr); }
-.pillars > li { padding: 0 var(--s5); border-left: 1px solid var(--ice-100); }
+/* Columns are flex so the "Läs mer" links sit on one line across all four,
+   whatever the description wraps to. */
+.pillars > li { padding: 0 var(--s5); border-left: 1px solid var(--ice-100); display: flex; flex-direction: column; }
 .pillars > li:first-child { padding-left: 0; border-left: 0; }
 .pillars > li:last-child { padding-right: 0; }
 .badge {
@@ -163,7 +194,7 @@ a { color: var(--blue-500); }
 }
 .badge svg { width: 26px; height: 26px; }
 .pillars .t-h3 { margin-bottom: var(--s2); }
-.pillars .link-arrow { margin-top: var(--s4); }
+.pillars .link-arrow { margin-top: auto; padding-top: var(--s4); align-self: flex-start; }
 
 /* ---- About ---- */
 .about-grid {
@@ -307,6 +338,10 @@ a { color: var(--blue-500); }
   .topbar-end { margin-left: auto; }
   .topbar-end .btn { display: none; }
   .hero-inner { padding-top: 164px; }
+  /* Two rows of header is a lot of a small viewport, so the stuck state trims it. */
+  .topbar.is-stuck { padding: 10px 0; }
+  .topbar.is-stuck .brand img { width: 168px; }
+  main[id], section[id], .cta-panel[id] { scroll-margin-top: 112px; }
 }
 
 @media (max-width: 640px) {
@@ -450,25 +485,25 @@ a { color: var(--blue-500); }
         <li>
           <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-target"/></svg></div>
           <h2 class="t-h3">Strategi</h2>
-          <p class="t-small">Vi hjälper dig att identifiera möjligheter, planera rätt och skapa värde över tid.</p>
+          <p class="t-body">Vi hjälper dig att identifiera möjligheter, planera rätt och skapa värde över tid.</p>
           <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
         <li>
           <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gear"/></svg></div>
           <h2 class="t-h3">Operationer</h2>
-          <p class="t-small">Vi optimerar processer, flöden och resurser för ökad effektivitet.</p>
+          <p class="t-body">Vi optimerar processer, flöden och resurser för ökad effektivitet.</p>
           <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
         <li>
           <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chart"/></svg></div>
           <h2 class="t-h3">Utveckling</h2>
-          <p class="t-small">Vi driver förändring och utveckling genom projekt och innovation.</p>
+          <p class="t-body">Vi driver förändring och utveckling genom projekt och innovation.</p>
           <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
         <li>
           <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-handshake"/></svg></div>
           <h2 class="t-h3">Samarbete</h2>
-          <p class="t-small">Vi tror på nära partnerskap och långsiktiga relationer.</p>
+          <p class="t-body">Vi tror på nära partnerskap och långsiktiga relationer.</p>
           <a class="link-arrow" href="#kontakt">Läs mer <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </li>
       </ul>
@@ -495,21 +530,21 @@ a { color: var(--blue-500); }
             <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-badge"/></svg></div>
             <div>
               <h3 class="t-h3">Erfarenhet</h3>
-              <p class="t-small">Bred erfarenhet från industri, logistik, försvar och projektledning.</p>
+              <p class="t-body">Bred erfarenhet från industri, logistik, försvar och projektledning.</p>
             </div>
           </li>
           <li>
             <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gear"/></svg></div>
             <div>
               <h3 class="t-h3">Flexibilitet</h3>
-              <p class="t-small">Anpassade lösningar efter dina behov och mål.</p>
+              <p class="t-body">Anpassade lösningar efter dina behov och mål.</p>
             </div>
           </li>
           <li>
             <div class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chart"/></svg></div>
             <div>
               <h3 class="t-h3">Resultat</h3>
-              <p class="t-small">Fokus på mätbar effekt och långsiktig konkurrenskraft.</p>
+              <p class="t-body">Fokus på mätbar effekt och långsiktig konkurrenskraft.</p>
             </div>
           </li>
         </ul>
@@ -589,7 +624,7 @@ a { color: var(--blue-500); }
 
         <div class="cta-panel" id="kontakt">
           <h2 class="t-h2">Låt oss skapa värde tillsammans</h2>
-          <p class="t-small">Oavsett om du behöver strategisk rådgivning, operativt stöd eller hjälp med ett specifikt projekt – vi finns här för att hjälpa dig.</p>
+          <p class="t-body">Oavsett om du behöver strategisk rådgivning, operativt stöd eller hjälp med ett specifikt projekt – vi finns här för att hjälpa dig.</p>
           <a class="btn btn-dark" href="mailto:aleksa@alpero.se">Kontakta oss
             <svg class="arrow-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
@@ -640,7 +675,18 @@ a { color: var(--blue-500); }
   </div>
 </footer>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* The header is transparent over the hero and solid once the page moves off it. */
+(function () {
+  var bar = document.querySelector('.topbar');
+  if (!bar) return;
+  function sync() { bar.classList.toggle('is-stuck', window.scrollY > 24); }
+  addEventListener('scroll', sync, { passive: true });
+  sync();
+})();
+</script>
 
 </body>
 </html>
